@@ -1,8 +1,8 @@
-import 'package:dicoding_news_app/article.dart';
-import 'package:dicoding_news_app/article_detail_page.dart';
-import 'package:dicoding_news_app/article_webview_page.dart';
-import 'package:dicoding_news_app/news_list_page.dart';
-import 'package:dicoding_news_app/style.dart';
+import 'package:dicoding_news_app/data/model/article.dart';
+import 'package:dicoding_news_app/common/style.dart';
+import 'package:dicoding_news_app/ui/article_detail_page.dart';
+import 'package:dicoding_news_app/ui/article_web_view.dart';
+import 'package:dicoding_news_app/ui/home_page.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -22,6 +22,7 @@ class MainApp extends StatelessWidget {
               primary: primaryColor,
               onPrimary: Colors.black,
               secondary: secondaryColor,
+              background: Colors.white,
             ),
         textTheme: myTextTheme,
         appBarTheme: const AppBarTheme(elevation: 0),
