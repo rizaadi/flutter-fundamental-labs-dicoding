@@ -1,8 +1,9 @@
-import 'package:dicoding_news_app/data/model/article.dart';
-import 'package:dicoding_news_app/ui/article_detail_page.dart';
+import 'package:dicoding_news_app/provider/news_provider.dart';
+import 'package:dicoding_news_app/widgets/card_article.dart';
 import 'package:dicoding_news_app/widgets/platform_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ArticleListPage extends StatelessWidget {
   const ArticleListPage({super.key});
@@ -34,36 +35,33 @@ class ArticleListPage extends StatelessWidget {
     );
   }
 
-  FutureBuilder<String> _buildList(BuildContext context) {
-    return FutureBuilder<String>(
-      future: DefaultAssetBundle.of(context).loadString('assets/articles.json'),
-      builder: (context, snapshot) {
-        final List<Article> articles = parseArticles(snapshot.data);
-        return ListView.builder(
-          itemCount: articles.length,
-          itemBuilder: (context, index) {
-            return _buildArticleItem(context, articles[index]);
-          },
-        );
+  Widget _buildList(BuildContext context) {
+    return Consumer<NewsProvider>(
+      builder: (context, state, _) {
+        if (state.state == ResultState.loading) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (state.state == ResultState.hasData) {
+          return ListView.builder(
+            itemCount: state.result.articles.length,
+            itemBuilder: (context, index) {
+              var article = state.result.articles[index];
+              return CardArticle(article: article);
+            },
+          );
+        } else if (state.state == ResultState.noData) {
+          return Center(
+            child: Material(
+              child: Text(state.message),
+            ),
+          );
+        } else {
+          return const Center(
+            child: Material(
+              child: Text(''),
+            ),
+          );
+        }
       },
-    );
-  }
-
-  Material _buildArticleItem(BuildContext context, Article article) {
-    return Material(
-      child: ListTile(
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-        leading: Image.network(
-          article.urlToImage,
-          width: 100,
-          errorBuilder: (ctx, error, _) => const Center(child: Icon(Icons.error)),
-        ),
-        title: Text(article.title),
-        subtitle: Text(article.author),
-        onTap: () {
-          Navigator.pushNamed(context, ArticleDetailPage.routeName, arguments: article);
-        },
-      ),
     );
   }
 }

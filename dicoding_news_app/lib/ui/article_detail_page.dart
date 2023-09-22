@@ -17,13 +17,13 @@ class ArticleDetailPage extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Image.network(article.urlToImage),
+            Image.network(article.urlToImage!),
             Padding(
               padding: const EdgeInsets.all(10),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(article.description),
+                  Text(article.description ?? '-'),
                   const Divider(color: Colors.grey),
                   Text(
                     article.title,
@@ -39,7 +39,7 @@ class ArticleDetailPage extends StatelessWidget {
                   Text('Author: ${article.author}'),
                   const Divider(color: Colors.grey),
                   Text(
-                    article.content,
+                    article.content ?? '-',
                     style: const TextStyle(fontSize: 16),
                   ),
                   const SizedBox(height: 10),

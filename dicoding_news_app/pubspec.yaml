@@ -12,6 +12,8 @@ dependencies:
   google_fonts: ^6.0.0
   webview_flutter: ^4.2.4
   cupertino_icons: ^1.0.3
+  http: ^1.1.0
+  provider: ^6.0.5
 
 dev_dependencies:
   flutter_lints: ^2.0.0
