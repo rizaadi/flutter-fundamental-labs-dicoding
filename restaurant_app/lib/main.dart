@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:restaurant_app/model/restaurant_model.dart';
+import 'package:provider/provider.dart';
+import 'package:restaurant_app/data/api/api_service.dart';
+import 'package:restaurant_app/provider/restaurant_provider.dart';
 import 'package:restaurant_app/ui/detail_page.dart';
 import 'package:restaurant_app/ui/home_page.dart';
+import 'package:restaurant_app/ui/search_page.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,17 +18,21 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Restauran App',
-      theme: ThemeData.light(useMaterial3: true),
-      initialRoute: '/home',
-      routes: {
-        HomePage.routeName: (context) => const HomePage(),
-        DetailPage.routeName: (context) => DetailPage(
-              restaurant: ModalRoute.of(context)?.settings.arguments as Restaurant,
-            ),
-      },
+    return ChangeNotifierProvider(
+      create: (context) => RestaurantProvider(apiService: ApiService()),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Restauran App',
+        theme: ThemeData.light(useMaterial3: true),
+        initialRoute: '/home',
+        routes: {
+          HomePage.routeName: (context) => const HomePage(),
+          DetailPage.routeName: (context) => DetailPage(
+                id: ModalRoute.of(context)?.settings.arguments as String,
+              ),
+          SearchPage.routeName: (context) => const SearchPage(),
+        },
+      ),
     );
   }
 }
